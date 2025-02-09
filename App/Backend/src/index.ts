@@ -5,6 +5,10 @@ import express from "express";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import morgan from "morgan";
+import {
+  userLogin,
+  userRegistration,
+} from "@/controllers";
 
 const app = express();
 app.use(express.json());
@@ -24,6 +28,10 @@ app.use("/api", limiter);
 
 app.use(morgan("dev"));
 app.use(express.json());
+
+//Routes
+app.post("/auth/register", userRegistration);
+app.post("/auth/login", userLogin);
 
 //health check
 app.get("/health", (_req, res) => {
