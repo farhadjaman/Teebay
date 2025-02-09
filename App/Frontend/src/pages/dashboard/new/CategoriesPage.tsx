@@ -28,8 +28,12 @@ export const CategoriesPage: React.FC = () => {
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="electronics">Electronics</SelectItem>
+          <SelectItem value="furniture">Furniture</SelectItem>
+          <SelectItem value="home appliances">Home appliances</SelectItem>
+          <SelectItem value="sporting goods">Sporting goods</SelectItem>
+            <SelectItem value="outdoor">Outdoor</SelectItem>
           <SelectItem value="toys">Toys</SelectItem>
-          <SelectItem value="games">Games</SelectItem>
+
         </SelectContent>
       </Select>
     </div>
