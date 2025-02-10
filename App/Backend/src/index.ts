@@ -1,56 +1,45 @@
-import dotenv from "dotenv";
-dotenv.config();
-import cors from "cors";
 import express from "express";
-import rateLimit from "express-rate-limit";
-import helmet from "helmet";
-import morgan from "morgan";
-import {
-  userLogin,
-  userRegistration,
-} from "@/controllers";
+import cors from "cors";
+import dotenv from "dotenv";
 
+// graphql
+import { ApolloServer } from "@apollo/server";
+import { expressMiddleware } from "@apollo/server/express4";
+import { typeDefs, resolvers } from "@/graphql/server";
+import { getUserFromToken } from "@/graphql/utils/auth.utils";
+
+dotenv.config();
 const app = express();
-app.use(express.json());
-app.use(helmet());
-app.use(cors());
+const port = process.env.PORT || 4000;
 
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
-  handler: (_req, res) => {
-    res.status(429).json({
-      message: "Too many requests, please try again later.",
-    });
-  },
-});
-app.use("/api", limiter);
+const bootstrapServer = async () => {
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+  });
+  await server.start();
 
-app.use(morgan("dev"));
-app.use(express.json());
+  app.use(cors());
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
+  app.use(
+    "/graphql",
+    expressMiddleware(server, {
+      context: async ({ req }) => {
+        const userId = getUserFromToken(req);
+        return { userId };
+      },
+    }),
+  );
 
-//Routes
-app.post("/auth/register", userRegistration);
-app.post("/auth/login", userLogin);
+  app.get("/health", (_, res) => {
+    res.send("health check");
+  });
 
-//health check
-app.get("/health", (_req, res) => {
-  res.json({ message: "API Gateway is up and running" });
-});
+  app.listen(port, () => {
+    console.log(`🚀 Express ready at http://localhost:${port}`);
+    console.log(`🚀 Graphql ready at http://localhost:${port}/graphql`);
+  });
+};
 
-// 404 handler
-app.use((_req, res) => {
-  res.status(404).json({ message: "Not Found" });
-});
-
-// Error handler
-app.use((err, _req, res, _next) => {
-  console.error(err.stack);
-  res.status(500).json({ message: "Internal Server Error" });
-});
-
-const port = process.env.PORT || 8000;
-
-app.listen(port, () => {
-  console.log(`API Gateway is running on port ${port}`);
-});
+bootstrapServer();

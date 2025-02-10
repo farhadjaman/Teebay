@@ -9,10 +9,10 @@ const userLogin = async (req: Request, res: Response, next: NextFunction) => {
   try {
     console.log(req);
     const ipAddress =
-        (req.headers["x-forwarded-for"] as string) || req.ip || "";
+      (req.headers["x-forwarded-for"] as string) || req.ip || "";
     const userAgent = req.headers["user-agent"] || "";
     console.log(
-        `Login attempt from IP address: ${ipAddress} and User Agent: ${userAgent}`,
+      `Login attempt from IP address: ${ipAddress} and User Agent: ${userAgent}`,
     );
 
     const parsedBody = UserLoginSchema.safeParse(req.body);
@@ -35,8 +35,8 @@ const userLogin = async (req: Request, res: Response, next: NextFunction) => {
 
     //compare password
     const isMatch = await bcrypt.compare(
-        parsedBody.data.password,
-        user.password,
+      parsedBody.data.password,
+      user.password,
     );
 
     if (!isMatch) {
@@ -46,15 +46,15 @@ const userLogin = async (req: Request, res: Response, next: NextFunction) => {
 
     //generate token
     const token = jwt.sign(
-        {
-          userId: user.id,
-          email: user.email,
-          name: user.name,
-        },
-        jwtSecret || "secret-test-2323",
-        {
-          expiresIn: "2h",
-        }
+      {
+        userId: user.id,
+        email: user.email,
+        name: user.name,
+      },
+      jwtSecret || "secret-test-2323",
+      {
+        expiresIn: "2h",
+      },
     );
 
     res.status(200).json({ token });

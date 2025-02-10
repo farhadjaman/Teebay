@@ -4,9 +4,9 @@ import bcrypt from "bcryptjs";
 import { NextFunction, Request, Response } from "express";
 
 const userRegistration = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
+  req: Request,
+  res: Response,
+  next: NextFunction,
 ) => {
   try {
     const parsedBody = UserCreateSchema.safeParse(req.body);
@@ -46,8 +46,7 @@ const userRegistration = async (
     });
 
     res.status(201).json({
-      message:
-          "User created successfully",
+      message: "User created successfully",
       user,
     });
     return;
