@@ -3,7 +3,7 @@ import { RefObject, useEffect, useRef } from "react";
 export const useViewTracker = (
   elementRef: RefObject<HTMLElement>,
   onView: () => void,
-  options: IntersectionObserverOptions = { threshold: 0.5 }
+  options: IntersectionObserverOptions = { threshold: 0.5 },
 ) => {
   const hasViewed = useRef(false);
   const observerRef = useRef<IntersectionObserver | null>(null);

@@ -14,7 +14,7 @@ export const formatDate = (dateString: string): string => {
 };
 export const validateStep = (
   pathname: string,
-  searchParams: URLSearchParams
+  searchParams: URLSearchParams,
 ): boolean => {
   switch (pathname) {
     case "/dashboard/new/title":

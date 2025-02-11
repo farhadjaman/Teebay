@@ -52,7 +52,7 @@ const RentalPeriodModal: React.FC<RentalPeriodModalProps> = ({
     setter: (date: Date | undefined) => void,
     inputSetter: (value: string) => void,
     errorSetter: (key: "from" | "to") => void,
-    isFromDate: boolean
+    isFromDate: boolean,
   ) => {
     inputSetter(value);
 
@@ -113,7 +113,7 @@ const RentalPeriodModal: React.FC<RentalPeriodModalProps> = ({
                     setFromDate,
                     setFromInputValue,
                     "from",
-                    true
+                    true,
                   )
                 }
               />
@@ -134,7 +134,7 @@ const RentalPeriodModal: React.FC<RentalPeriodModalProps> = ({
                     setToDate,
                     setToInputValue,
                     "to",
-                    false
+                    false,
                   )
                 }
               />
