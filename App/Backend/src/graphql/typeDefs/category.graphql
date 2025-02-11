@@ -1,0 +1,35 @@
+"""
+A category that groups products.
+"""
+type Category {
+  id: ID!
+  name: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+extend type Query {
+  """
+  Retrieve all categories.
+  """
+  allCategories: [Category!]!
+
+  """
+  Retrieve a single category by its ID.
+  """
+  categoryById(id: ID!): Category
+}
+
+"""
+Input type for creating a category.
+"""
+input CreateCategoryInput {
+  name: String!
+}
+
+extend type Mutation {
+  """
+  Create a new category.
+  """
+  createCategory(input: CreateCategoryInput!): Category!
+}

@@ -1,0 +1,66 @@
+type Category {
+  id: ID!
+  name: String!
+}
+
+"""
+Represents a product that can be sold or rented.
+"""
+type Product {
+  id: ID!
+  title: String!
+  description: String!
+  price: Float!
+  rentPrice: Float
+  rentOption: String
+  createdAt: String!
+  updatedAt: String!
+  owner: User!
+  categories: [Category!]!
+}
+
+extend type Query {
+  """
+  Get all products
+  """
+  allProducts: [Product!]!
+
+  """
+  Fetch a single product by its ID.
+  """
+  productById(id: ID!): Product
+
+  """
+  Returns all products created by the authenticated user.
+  """
+  myProducts: [Product!]!
+}
+
+"""
+Input type for creating or updating a product
+"""
+input ProductInput {
+  title: String!
+  description: String!
+  price: Float!
+  rentPrice: Float
+  rentOption: String
+  categoryIds: [String!] # We'll pass array of Category IDs to connect
+}
+
+extend type Mutation {
+  """
+  Create a new product owned by the authenticated user
+  """
+  createProduct(input: ProductInput!): Product!
+
+  """
+  Update an existing product (must be owner)
+  """
+  updateProduct(id: ID!, input: ProductInput!): Product!
+
+  """
+  Delete an existing product (must be owner)
+  """
+  deleteProduct(id: ID!): Boolean
+}
