@@ -1,3 +1,5 @@
+import EditProduct from "@/features/app/dashboard/my-products/EditProduct.tsx";
+
 export default function EditProductRoute() {
-  return <div>Edit Product</div>;
+  return <EditProduct/>
 }

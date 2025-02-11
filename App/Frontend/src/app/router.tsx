@@ -30,7 +30,7 @@ const SignIn = React.lazy(() => import("@/app/routes/auth/login"));
 const SignUp = React.lazy(() => import("@/app/routes/auth/register"));
 
 const MyProductsList = React.lazy(
-  () => import("@/app/routes/app/dashboard/my-products/MyProducts"),
+  () => import("@/app/routes/app/dashboard/my-products/MyProducts.tsx"),
 );
 const CreateProduct = React.lazy(
   () => import("@/app/routes/app/dashboard/my-products/Createproducts"),
@@ -84,9 +84,9 @@ const router = createBrowserRouter([
   {
     path: paths.app.dashboard.root.path,
     element: (
-      <ProtectedRoute>
+      // <ProtectedRoute>
         <DashboardLayout />
-      </ProtectedRoute>
+      // </ProtectedRoute>
     ),
     children: [
       {

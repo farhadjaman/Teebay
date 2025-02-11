@@ -36,11 +36,11 @@ export const paths = {
           getHref: () => "/dashboard/my-products",
         },
         create: {
-          path: "my-products/new",
+          path: "new",
           getHref: () => "/dashboard/my-products/new",
         },
         edit: {
-          path: "my-products/:productId/edit",
+          path: ":productId/edit",
           getHref: (productId: string) =>
             `/dashboard/my-products/${productId}/edit`,
         },

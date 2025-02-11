@@ -1,26 +1,10 @@
 import { NavLink, Outlet } from "react-router-dom";
+import Navbar from "@/components/Navbar.tsx";
 
 export const DashboardLayout = () => {
   return (
     <div>
-      <header>
-        <nav>
-          {/* Tabs for Dashboard. Using NavLink for active styling */}
-          <NavLink
-            to=""
-            end
-            className={({ isActive }) => (isActive ? "tab active" : "tab")}
-          >
-            All Products
-          </NavLink>
-          <NavLink
-            to="my-products"
-            className={({ isActive }) => (isActive ? "tab active" : "tab")}
-          >
-            My Products
-          </NavLink>
-        </nav>
-      </header>
+    <Navbar/>
       <section>
         <Outlet />
       </section>

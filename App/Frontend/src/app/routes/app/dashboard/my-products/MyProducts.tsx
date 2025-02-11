@@ -1,3 +1,5 @@
+import MyProducts from "@/features/app/dashboard/my-products/MyProducts.tsx";
+
 export default function MyProductsRoute() {
-  return <div>Products Page</div>;
+  return (<MyProducts/>)
 }
