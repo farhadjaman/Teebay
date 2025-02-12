@@ -3,7 +3,7 @@ import { CREATE_TRANSACTION_MUTATION } from "@/graphql/mutations/transaction";
 import { MY_TRANSACTIONS_QUERY } from "@/graphql/queries/transaction.ts";
 
 export const useCreateTransaction = () => {
-  const [createTransactionMutation] = useMutation(CREATE_TRANSACTION_MUTATION,{
+  const [createTransactionMutation] = useMutation(CREATE_TRANSACTION_MUTATION, {
     refetchQueries: [MY_TRANSACTIONS_QUERY],
     awaitRefetchQueries: true,
   });

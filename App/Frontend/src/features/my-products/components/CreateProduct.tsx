@@ -61,7 +61,11 @@ const CreateProduct: React.FC = () => {
 
   // Mutation hook for creating a product.
   // The mutation expects an input of type ProductInput, which includes a field categoryIds: [String!]
-  const { createProduct, loading: creating, error: createError } = useCreateProduct();
+  const {
+    createProduct,
+    loading: creating,
+    error: createError,
+  } = useCreateProduct();
 
   // Helper to update form data.
   const updateFormData = (key: keyof ProductFormData, value: any) => {
@@ -79,9 +83,9 @@ const CreateProduct: React.FC = () => {
         return formData.description.trim() !== "";
       case "price":
         return (
-            formData.purchasePrice.trim() !== "" &&
-            formData.rentPrice.trim() !== "" &&
-            formData.rentOption.trim() !== ""
+          formData.purchasePrice.trim() !== "" &&
+          formData.rentPrice.trim() !== "" &&
+          formData.rentOption.trim() !== ""
         );
       default:
         return true;
@@ -89,7 +93,13 @@ const CreateProduct: React.FC = () => {
   };
 
   const handleNext = () => {
-    const steps: FormStep[] = ["title", "categories", "description", "price", "summary"];
+    const steps: FormStep[] = [
+      "title",
+      "categories",
+      "description",
+      "price",
+      "summary",
+    ];
     const currentIndex = steps.indexOf(currentStep);
     if (currentIndex < steps.length - 1) {
       setCurrentStep(steps[currentIndex + 1]);
@@ -97,7 +107,13 @@ const CreateProduct: React.FC = () => {
   };
 
   const handleBack = () => {
-    const steps: FormStep[] = ["title", "categories", "description", "price", "summary"];
+    const steps: FormStep[] = [
+      "title",
+      "categories",
+      "description",
+      "price",
+      "summary",
+    ];
     const currentIndex = steps.indexOf(currentStep);
     if (currentIndex > 0) {
       setCurrentStep(steps[currentIndex - 1]);
@@ -129,8 +145,8 @@ const CreateProduct: React.FC = () => {
     setFormData((prev) => {
       const currentCategories = prev.categories;
       const newCategories = currentCategories.includes(value)
-          ? currentCategories.filter((catId) => catId !== value)
-          : [...currentCategories, value];
+        ? currentCategories.filter((catId) => catId !== value)
+        : [...currentCategories, value];
       return { ...prev, categories: newCategories };
     });
   };
@@ -139,15 +155,15 @@ const CreateProduct: React.FC = () => {
     switch (currentStep) {
       case "title":
         return (
-            <div className="space-y-4">
-              <h2 className="text-lg font-semibold">Enter Product Title</h2>
-              <Input
-                  value={formData.title}
-                  onChange={(e) => updateFormData("title", e.target.value)}
-                  placeholder="Enter product title"
-                  className="w-full"
-              />
-            </div>
+          <div className="space-y-4">
+            <h2 className="text-lg font-semibold">Enter Product Title</h2>
+            <Input
+              value={formData.title}
+              onChange={(e) => updateFormData("title", e.target.value)}
+              placeholder="Enter product title"
+              className="w-full"
+            />
+          </div>
         );
 
       case "categories":
@@ -158,120 +174,125 @@ const CreateProduct: React.FC = () => {
           return <p>Error loading categories: {categoriesError.message}</p>;
         }
         return (
-            <div className="space-y-4">
-              <h2 className="text-lg font-semibold">Select Categories</h2>
-              <Select onValueChange={handleCategoryChange} value="">
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select categories" />
-                </SelectTrigger>
-                <SelectContent>
-                  {categories.map((category: Category) => (
-                      <SelectItem key={category.id} value={category.id}>
-                        {category.name}
-                      </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {formData.categories.length > 0 && (
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    {formData.categories.map((catId) => {
-                      const cat = categories.find((c: Category) => c.id === catId);
-                      return (
-                          <Badge key={catId} variant="secondary" className="flex items-center">
-                            {cat ? cat.name : catId}
-                            <button
-                                onClick={() => handleCategoryChange(catId)}
-                                className="ml-2 text-destructive hover:text-destructive/80"
-                            >
-                              ×
-                            </button>
-                          </Badge>
-                      );
-                    })}
-                  </div>
-              )}
-            </div>
+          <div className="space-y-4">
+            <h2 className="text-lg font-semibold">Select Categories</h2>
+            <Select onValueChange={handleCategoryChange} value="">
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select categories" />
+              </SelectTrigger>
+              <SelectContent>
+                {categories.map((category: Category) => (
+                  <SelectItem key={category.id} value={category.id}>
+                    {category.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {formData.categories.length > 0 && (
+              <div className="flex flex-wrap gap-2 mt-2">
+                {formData.categories.map((catId) => {
+                  const cat = categories.find((c: Category) => c.id === catId);
+                  return (
+                    <Badge
+                      key={catId}
+                      variant="secondary"
+                      className="flex items-center"
+                    >
+                      {cat ? cat.name : catId}
+                      <button
+                        onClick={() => handleCategoryChange(catId)}
+                        className="ml-2 text-destructive hover:text-destructive/80"
+                      >
+                        ×
+                      </button>
+                    </Badge>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         );
 
       case "description":
         return (
-            <div className="space-y-4">
-              <h2 className="text-lg font-semibold">Product Description</h2>
-              <Textarea
-                  value={formData.description}
-                  onChange={(e) => updateFormData("description", e.target.value)}
-                  placeholder="Enter product description"
-                  className="w-full"
-              />
-            </div>
+          <div className="space-y-4">
+            <h2 className="text-lg font-semibold">Product Description</h2>
+            <Textarea
+              value={formData.description}
+              onChange={(e) => updateFormData("description", e.target.value)}
+              placeholder="Enter product description"
+              className="w-full"
+            />
+          </div>
         );
 
       case "price":
         return (
-            <div className="space-y-4">
-              <h2 className="text-lg font-semibold">Pricing Details</h2>
+          <div className="space-y-4">
+            <h2 className="text-lg font-semibold">Pricing Details</h2>
+            <Input
+              type="number"
+              value={formData.purchasePrice}
+              onChange={(e) => updateFormData("purchasePrice", e.target.value)}
+              placeholder="Purchase price"
+              className="w-full mb-2"
+            />
+            <div className="flex gap-2">
               <Input
-                  type="number"
-                  value={formData.purchasePrice}
-                  onChange={(e) => updateFormData("purchasePrice", e.target.value)}
-                  placeholder="Purchase price"
-                  className="w-full mb-2"
+                type="number"
+                value={formData.rentPrice}
+                onChange={(e) => updateFormData("rentPrice", e.target.value)}
+                placeholder="Rent price"
+                className="w-32"
               />
-              <div className="flex gap-2">
-                <Input
-                    type="number"
-                    value={formData.rentPrice}
-                    onChange={(e) => updateFormData("rentPrice", e.target.value)}
-                    placeholder="Rent price"
-                    className="w-32"
-                />
-                <Select
-                    value={formData.rentOption}
-                    onValueChange={(value) => updateFormData("rentOption", value)}
-                >
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select option" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {RENT_OPTIONS.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
-                        </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+              <Select
+                value={formData.rentOption}
+                onValueChange={(value) => updateFormData("rentOption", value)}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select option" />
+                </SelectTrigger>
+                <SelectContent>
+                  {RENT_OPTIONS.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
+          </div>
         );
 
-      case "summary":
-        { const selectedCategoryNames = categories
-            .filter((c: Category) => formData.categories.includes(c.id))
-            .map((c: Category) => c.name)
-            .join(", ");
+      case "summary": {
+        const selectedCategoryNames = categories
+          .filter((c: Category) => formData.categories.includes(c.id))
+          .map((c: Category) => c.name)
+          .join(", ");
         return (
-            <div className="space-y-4">
-              <h2 className="text-lg font-semibold">Summary</h2>
-              <div className="space-y-2">
-                <p>
-                  <strong>Title:</strong> {formData.title}
-                </p>
-                <p>
-                  <strong>Categories:</strong> {selectedCategoryNames}
-                </p>
-                <p>
-                  <strong>Description:</strong> {formData.description}
-                </p>
-                <p>
-                  <strong>Purchase Price:</strong> ${formData.purchasePrice}
-                </p>
-                <p>
-                  <strong>Rent Price:</strong> ${formData.rentPrice} {formData.rentOption}
-                </p>
-              </div>
+          <div className="space-y-4">
+            <h2 className="text-lg font-semibold">Summary</h2>
+            <div className="space-y-2">
+              <p>
+                <strong>Title:</strong> {formData.title}
+              </p>
+              <p>
+                <strong>Categories:</strong> {selectedCategoryNames}
+              </p>
+              <p>
+                <strong>Description:</strong> {formData.description}
+              </p>
+              <p>
+                <strong>Purchase Price:</strong> ${formData.purchasePrice}
+              </p>
+              <p>
+                <strong>Rent Price:</strong> ${formData.rentPrice}{" "}
+                {formData.rentOption}
+              </p>
             </div>
+          </div>
         );
-        }
+      }
 
       default:
         return null;
@@ -279,40 +300,44 @@ const CreateProduct: React.FC = () => {
   };
 
   return (
-      <div className="min-h-screen flex items-center justify-center p-4">
-        <Card className="w-full max-w-md">
-          <CardContent className="p-6">
-            {renderStep()}
-            <div className="flex justify-between mt-6">
-              {currentStep !== "title" && (
-                  <Button variant="outline" onClick={handleBack}>
-                    Back
-                  </Button>
-              )}
-              <div className="ml-auto">
-                {currentStep === "summary" ? (
-                    <Button
-                        variant="teebay"
-                        onClick={handleSubmit}
-                        disabled={!isCurrentStepValid() || creating}
-                    >
-                      {creating ? "Submitting..." : "Submit"}
-                    </Button>
-                ) : (
-                    <Button variant="teebay" onClick={handleNext} disabled={!isCurrentStepValid()}>
-                      Next
-                    </Button>
-                )}
-              </div>
-            </div>
-            {createError && (
-                <p className="mt-2 text-center text-sm text-red-500">
-                  Error: {createError.message}
-                </p>
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <Card className="w-full max-w-md">
+        <CardContent className="p-6">
+          {renderStep()}
+          <div className="flex justify-between mt-6">
+            {currentStep !== "title" && (
+              <Button variant="outline" onClick={handleBack}>
+                Back
+              </Button>
             )}
-          </CardContent>
-        </Card>
-      </div>
+            <div className="ml-auto">
+              {currentStep === "summary" ? (
+                <Button
+                  variant="teebay"
+                  onClick={handleSubmit}
+                  disabled={!isCurrentStepValid() || creating}
+                >
+                  {creating ? "Submitting..." : "Submit"}
+                </Button>
+              ) : (
+                <Button
+                  variant="teebay"
+                  onClick={handleNext}
+                  disabled={!isCurrentStepValid()}
+                >
+                  Next
+                </Button>
+              )}
+            </div>
+          </div>
+          {createError && (
+            <p className="mt-2 text-center text-sm text-red-500">
+              Error: {createError.message}
+            </p>
+          )}
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 

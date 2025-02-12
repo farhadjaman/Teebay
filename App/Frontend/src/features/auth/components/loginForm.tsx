@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input";
 import { signInSchema } from "@/schemas";
 import { LOGIN_MUTATION } from "@/graphql/mutations/auth.ts";
 import { paths } from "@/config/paths.ts";
-import {tokenVar} from "@/cache.ts";
+import { tokenVar } from "@/cache.ts";
 
 type SignInForm = z.infer<typeof signInSchema>;
 

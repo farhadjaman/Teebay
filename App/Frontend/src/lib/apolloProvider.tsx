@@ -7,13 +7,14 @@ import {
 import { setContext } from "@apollo/client/link/context";
 import { ReactNode } from "react";
 import { tokenVar } from "@/cache";
+import { env } from "@/config/env.ts";
 
 interface ApolloProviderProps {
   children: ReactNode;
 }
 
 const httpLink = createHttpLink({
-  uri: "http://localhost:8000/graphql",
+  uri: `${env.API_URL}/graphql`,
 });
 
 const authLink = setContext((_, { headers }) => {

@@ -69,9 +69,9 @@ const router = createBrowserRouter([
       },
       {
         element: (
-            <ProtectedRoute>
-              <DashboardLayout />
-            </ProtectedRoute>
+          <ProtectedRoute>
+            <DashboardLayout />
+          </ProtectedRoute>
         ),
         children: [
           {
@@ -109,7 +109,8 @@ const router = createBrowserRouter([
         element: <NotFound />,
       },
     ],
-  }])
+  },
+]);
 
 export const AppRouter = () => {
   return <RouterProvider router={router} />;
