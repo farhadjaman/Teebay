@@ -36,7 +36,7 @@ export const LoginForm = ({ onSuccess }: LogInFormProps) => {
       email: "",
       password: "",
     },
-    mode: "onBlur",
+    mode: "onChange",
   });
 
   // Set up the Apollo mutation hook for login.

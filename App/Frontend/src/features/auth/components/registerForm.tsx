@@ -37,7 +37,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
       email: "",
       password: "",
     },
-    mode: "onBlur",
+    mode: "onChange",
   });
 
   const onSubmit = async (data: SignUpForm) => {
