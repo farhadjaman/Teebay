@@ -65,7 +65,7 @@ export const productService = {
       },
     });
   },
-  // Delete a product
+
   async deleteProduct(id: string, userId: string) {
     if (!userId) {
       throw new Error("Not authenticated");
@@ -87,6 +87,11 @@ export const productService = {
   async getProductCategories(productId: string) {
     return prisma.category.findMany({
       where: { products: { some: { id: productId } } },
+    });
+  },
+  async getProductTransactions(productId: string) {
+    return prisma.transaction.findMany({
+      where: { productId },
     });
   },
 };

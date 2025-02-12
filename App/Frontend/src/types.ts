@@ -1,19 +1,16 @@
+export interface Category {
+  id: string;
+  name: string;
+}
 
-type Category = "Electronics"|
-    "Furniture"|
-    "Home appliances"|
-    "Sporting goods"|
-    "Outdoor"|
-    "Toys"|
-    "Home";
 export interface Product {
   id: string;
   title: string;
-  categories: Category[ ];
-  price: number;
   description: string;
-  datePosted: string;
-  views: number;
+  price: number;
   rentPrice: number;
-  rentOption: "daily" | "weekly" | "monthly";
+  rentOption: string;
+  createdAt: string;
+  views: number;
+  categories: Category[];
 }

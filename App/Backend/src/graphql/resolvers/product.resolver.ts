@@ -31,5 +31,8 @@ export const productResolver = {
     async categories(parent: any) {
       return productService.getProductCategories(parent.id);
     },
+    async transactions(parent: any) {
+      return productService.getProductTransactions(parent.id);
+    },
   },
 };

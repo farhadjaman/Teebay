@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar.tsx";
 export const DashboardLayout = () => {
   return (
     <div>
-    <Navbar/>
+      <Navbar />
       <section>
         <Outlet />
       </section>

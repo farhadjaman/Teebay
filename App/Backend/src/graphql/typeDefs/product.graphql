@@ -17,6 +17,7 @@ type Product {
   updatedAt: String!
   owner: User!
   categories: [Category!]!
+  transactions: [Transaction!]!
 }
 
 extend type Query {

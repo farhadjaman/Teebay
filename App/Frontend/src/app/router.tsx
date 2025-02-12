@@ -85,7 +85,7 @@ const router = createBrowserRouter([
     path: paths.app.dashboard.root.path,
     element: (
       // <ProtectedRoute>
-        <DashboardLayout />
+      <DashboardLayout />
       // </ProtectedRoute>
     ),
     children: [

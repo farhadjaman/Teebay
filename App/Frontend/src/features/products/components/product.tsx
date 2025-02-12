@@ -1,103 +1,130 @@
-import ConfirmationModal from "@/components/ConfirmationModal";
-import RentalPeriodModal from "@/components/RentalPeriodModal";
+import { useState } from "react";
+import { useParams, useNavigate, Navigate } from "react-router-dom";
+
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-    Card,
-    CardContent,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
-import { Product } from "@/types";
-import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import data from "@/data.json";
+
+import ConfirmationModal from "@/components/ConfirmationModal";
+
+import { useProduct } from "@/features/products/hooks/useProduct";
+import { useTransaction } from "@/features/products/hooks/useTransaction";
 
 const ProductDetails = () => {
+  const { productId } = useParams();
+  const navigate = useNavigate();
+  const [showBuyModal, setShowBuyModal] = useState<boolean>(false);
+  const { product, loading, error, refetch } = useProduct(productId || "");
+  const { createTransaction } = useTransaction();
 
-    const products = data as Product[];
-    const [showBuyModal, setShowBuyModal] = useState<boolean>(false);
-    const [showRentModal, setShowRentModal] = useState<boolean>(false);
+  if (!productId) {
+    return <Navigate to="/404" replace />;
+  }
 
-    const { productId } = useParams();
-    const navigate = useNavigate();
+  if (loading) {
+    return <div>Loading product details...</div>;
+  }
 
-    // Error handling for invalid product
-    if (!productId) {
-        navigate("/404");
+  if (error || !product) {
+    return <Navigate to="/404" replace />;
+  }
+
+  const {
+    title,
+    categories,
+    price,
+    rentPrice,
+    rentOption,
+    description,
+    transactions = [],
+  } = product;
+
+  const boughtCount = transactions.filter(
+    (t: { type: string }) => t.type === "BUY",
+  ).length;
+  const rentCount = transactions.filter(
+    (t: { type: string }) => t.type === "RENT",
+  ).length;
+
+  const handleBuyConfirm = async () => {
+    try {
+      await createTransaction(product.id, "BUY");
+      setShowBuyModal(false);
+      refetch();
+    } catch (err) {
+      console.error("Error processing buy transaction:", err);
     }
+  };
 
-    const product = products.find((product: Product) => product.id === productId);
-
-    if (!product) {
-        navigate("/404");
+  const handleRent = async () => {
+    try {
+      const transaction = await createTransaction(product.id, "RENT");
+      console.log("Rent transaction completed:", transaction);
+      refetch();
+    } catch (err) {
+      console.error("Error processing rent transaction:", err);
     }
+  };
 
-    const { title, categories, price, description, rentPrice, rentOption } =
-        product;
-    const handleBuyConfirm = () => {
-        // Add your purchase logic here
-        console.log("Product purchased!");
-    };
-    const handleConfirm = ({
-                               fromDate,
-                               toDate,
-                           }: {
-        fromDate: Date;
-        toDate: Date;
-    }) => {
-        console.log("Selected dates:", fromDate, toDate);
-    };
-    return (
-        <div className="h-[85vh] flex items-center justify-center p-4">
-            <Card className="max-w-3xl w-full">
-                <CardHeader>
-                    <CardTitle className="text-2xl">{title}</CardTitle>
-                    <div className="flex items-center justify-between mt-2">
-                        {categories.map((category, index) => (
-                            <Badge key={index} variant="secondary">
-                                {category}
-                            </Badge>
-                        ))}
-                        <span className="text-lg font-semibold">
-              Price: ${price} | Rent: ${rentPrice} {rentOption}
-            </span>
-                    </div>
-                </CardHeader>
+  return (
+    <div className="h-[85vh] flex items-center justify-center p-4">
+      <Card className="max-w-3xl w-full">
+        <CardHeader>
+          <div className="flex items-start justify-between">
+            <div>
+              <CardTitle className="text-2xl">{title}</CardTitle>
+              <div className="flex flex-wrap gap-2 mt-2">
+                {categories.map((category: { id: string; name: string }) => (
+                  <Badge key={category.id} variant="secondary">
+                    {category.name}
+                  </Badge>
+                ))}
+              </div>
+              <div className="mt-2 text-sm text-gray-600">
+                Price: ${price} | Rent: ${rentPrice} {rentOption}
+              </div>
+            </div>
+            <div className="text-right">
+              <div className="text-sm font-medium">Bought: {boughtCount}</div>
+              <div className="text-sm font-medium">Rented: {rentCount}</div>
+            </div>
+          </div>
+        </CardHeader>
 
-                <CardContent>
-                    <p className="text-gray-600 leading-relaxed">{description}</p>
-                </CardContent>
-                <CardFooter className="flex justify-between">
-                    <Button variant="outline" onClick={() => navigate(-1)}>
-                        Back
-                    </Button>
-                    <div className="space-x-4">
-                        <Button variant={"teebay"} onClick={() => setShowRentModal(true)}>
-                            Rent
-                        </Button>
-                        <Button onClick={() => setShowBuyModal(true)} variant={"teebay"}>
-                            Buy
-                        </Button>
-                    </div>
-                </CardFooter>
-            </Card>
+        <CardContent>
+          <p className="text-gray-600 leading-relaxed">{description}</p>
+        </CardContent>
 
-            <RentalPeriodModal
-                open={showRentModal}
-                onOpenChange={setShowRentModal}
-                onConfirm={handleConfirm}
-            />
-            <ConfirmationModal
-                isOpen={showBuyModal}
-                onClose={() => setShowBuyModal(false)}
-                onConfirm={handleBuyConfirm}
-                title="Are you sure you want to buy this product?"
-                description="This action cannot be undone. Please confirm your purchase."
-            />
-        </div>
-    );
+        <CardFooter className="flex justify-between">
+          <Button variant="outline" onClick={() => navigate(-1)}>
+            Back
+          </Button>
+          <div className="space-x-4">
+            <Button variant="teebay" onClick={handleRent}>
+              Rent
+            </Button>
+            <Button variant="teebay" onClick={() => setShowBuyModal(true)}>
+              Buy
+            </Button>
+          </div>
+        </CardFooter>
+      </Card>
+
+      <ConfirmationModal
+        isOpen={showBuyModal}
+        onClose={() => setShowBuyModal(false)}
+        onConfirm={handleBuyConfirm}
+        title="Are you sure you want to buy this product?"
+        description="This action cannot be undone. Please confirm your purchase."
+      />
+    </div>
+  );
 };
 
 export default ProductDetails;
