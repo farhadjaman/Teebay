@@ -1,6 +1,3 @@
-"""
-Type of transaction: BUY or RENT
-"""
 enum TransactionType {
   BUY
   RENT
@@ -14,19 +11,16 @@ type Transaction {
   user: User!
 }
 
-"""
-Input type for creating a transaction (buy or rent)
-"""
 input CreateTransactionInput {
   productId: String!
   type: TransactionType!
 }
 
 extend type Mutation {
-  """
-  Create a transaction for a user to buy or rent a product.
-  If type=BUY, the product is considered purchased.
-  If type=RENT, the product is considered rented.
-  """
   createTransaction(input: CreateTransactionInput!): Transaction!
+}
+
+extend type Query {
+  myTransactions: [Transaction!]!
+  myProductTransactions: [Transaction!]!
 }

@@ -35,6 +35,7 @@ export const resolvers = {
     ...authResolver.Query,
     ...productResolver.Query,
     ...categoryResolver.Query,
+    ...transactionResolver.Query,
   },
   Mutation: {
     ...authResolver.Mutation,
