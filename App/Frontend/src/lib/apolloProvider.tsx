@@ -6,6 +6,7 @@ import {
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { ReactNode } from "react";
+import { tokenVar } from "@/cache";
 
 interface ApolloProviderProps {
   children: ReactNode;
@@ -16,7 +17,7 @@ const httpLink = createHttpLink({
 });
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem("token");
+  const token = tokenVar();
   return {
     headers: {
       ...headers,

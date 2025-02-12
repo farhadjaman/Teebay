@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as z from "zod";
 import { useMutation } from "@apollo/client";
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -19,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { signInSchema } from "@/schemas";
 import { LOGIN_MUTATION } from "@/graphql/mutations/auth.ts";
 import { paths } from "@/config/paths.ts";
+import {tokenVar} from "@/cache.ts";
 
 type SignInForm = z.infer<typeof signInSchema>;
 
@@ -49,6 +49,7 @@ export const LoginForm = ({ onSuccess }: LogInFormProps) => {
       });
       if (response.data?.login.token) {
         localStorage.setItem("token", response.data.login.token);
+        tokenVar(response.data.login.token);
         onSuccess();
       } else {
         console.error("Login failed: No token returned.");

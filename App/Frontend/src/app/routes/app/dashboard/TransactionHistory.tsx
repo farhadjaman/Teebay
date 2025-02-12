@@ -1,4 +1,4 @@
-import TransactionHistory from "@/features/app/dashboard/components/TransactionHistory.tsx";
+import TransactionHistory from "@/features/transaction-history/components/TransactionHistory";
 
 const TransactionHistoryRoute = () => {
   return <TransactionHistory />;

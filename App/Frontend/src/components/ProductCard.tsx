@@ -61,7 +61,6 @@ const ProductCard = ({
 
   // Validate product.createdAt date
   const createdDate = new Date(Number(product.createdAt));
-  console.log(product.createdAt, createdDate);
   const isValidDate = !isNaN(createdDate.getTime());
 
   const postedDistance = isValidDate

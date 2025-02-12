@@ -1,4 +1,3 @@
-// src/AppRouter.tsx
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { paths } from "@/config/paths";
@@ -44,76 +43,73 @@ const TransactionHistory = React.lazy(
 const NotFound = React.lazy(() => import("@/app/routes/not-found.tsx"));
 
 const router = createBrowserRouter([
-  // Public routes (using RootLayout)
   {
     path: "/",
     element: <RootLayout />,
     children: [
       {
-        // Marketplace listing (all products)
         index: true,
         element: <Products />,
       },
       {
-        // Alternatively, you can also use the explicit route:
-        path: paths.marketplace.list.path, // "/products"
+        path: paths.marketplace.list.path,
         element: <Products />,
       },
       {
-        // Product detail page
-        path: paths.marketplace.detail.path, // "/products/:productId"
+        path: paths.marketplace.detail.path,
         element: <ProductDetails />,
       },
       {
-        // Authentication pages
-        path: paths.auth.login.path, // "/login"
+        path: paths.auth.login.path,
         element: <SignIn />,
       },
       {
-        path: paths.auth.register.path, // "/register"
+        path: paths.auth.register.path,
         element: <SignUp />,
       },
-      // 404 Route
+      {
+        element: (
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+        ),
+        children: [
+          {
+            path: paths.app.dashboard.root.path,
+            element: <MyProductsLayout />,
+            children: [
+              {
+                index: true,
+                element: <MyProductsList />,
+              },
+              {
+                path: paths.app.dashboard.myProducts.list.path,
+                element: <MyProductsList />,
+              },
+              {
+                path: paths.app.dashboard.myProducts.create.path,
+                element: <CreateProduct />,
+              },
+              {
+                path: paths.app.dashboard.myProducts.edit.path,
+                element: <EditProduct />,
+              },
+              {
+                path: paths.app.dashboard.transactionHistory.path,
+                element: <TransactionHistory />,
+              },
+            ],
+          },
+        ],
+      },
+
+      // --- 404 Fallback Route ---
       {
         path: "*",
         element: <NotFound />,
       },
     ],
-  },
-  // Protected Dashboard routes
-  {
-    path: paths.app.dashboard.root.path,
-    element: (
-      // <ProtectedRoute>
-      <DashboardLayout />
-      // </ProtectedRoute>
-    ),
-    children: [
-      {
-        path: paths.app.dashboard.myProducts.list.path,
-        element: <MyProductsLayout />,
-        children: [
-          {
-            index: true,
-            element: <MyProductsList />,
-          },
-          {
-            path: paths.app.dashboard.myProducts.create.path,
-            element: <CreateProduct />,
-          },
-          {
-            path: paths.app.dashboard.myProducts.edit.path,
-            element: <EditProduct />,
-          },
-        ],
-      },
-      {
-        path: paths.app.dashboard.transactionHistory.path,
-        element: <TransactionHistory />,
-      },
-    ],
-  },
-]);
+  }])
 
 export const AppRouter = () => {
   return <RouterProvider router={router} />;

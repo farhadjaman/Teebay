@@ -10,7 +10,6 @@ export const paths = {
       getHref: (productId: string) => `/products/${productId}`,
     },
   },
-  // Authentication routes
   auth: {
     register: {
       path: "/register",
@@ -36,16 +35,15 @@ export const paths = {
           getHref: () => "/dashboard/my-products",
         },
         create: {
-          path: "new",
+          path: "my-products/new",
           getHref: () => "/dashboard/my-products/new",
         },
         edit: {
-          path: ":productId/edit",
+          path: "my-products/:productId/edit",
           getHref: (productId: string) =>
             `/dashboard/my-products/${productId}/edit`,
         },
       },
-      // Transaction history for the user
       transactionHistory: {
         path: "history",
         getHref: () => "/dashboard/history",

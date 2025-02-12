@@ -5,8 +5,6 @@ export const ALL_CATEGORIES_QUERY = gql`
     allCategories {
       id
       name
-      createdAt
-      updatedAt
     }
   }
 `;

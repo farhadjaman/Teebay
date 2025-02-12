@@ -14,3 +14,12 @@ export interface Product {
   views: number;
   categories: Category[];
 }
+
+export interface ProductInput {
+  title: string;
+  description: string;
+  price: number;
+  rentPrice: number;
+  rentOption: string;
+  categoryIds: string[];
+}

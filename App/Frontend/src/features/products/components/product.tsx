@@ -14,14 +14,14 @@ import { Button } from "@/components/ui/button";
 import ConfirmationModal from "@/components/ConfirmationModal";
 
 import { useProduct } from "@/features/products/hooks/useProduct";
-import { useTransaction } from "@/features/products/hooks/useTransaction";
+import { useCreateTransaction } from "@/features/products/hooks/useCreateTransaction.ts";
 
 const ProductDetails = () => {
   const { productId } = useParams();
   const navigate = useNavigate();
   const [showBuyModal, setShowBuyModal] = useState<boolean>(false);
   const { product, loading, error, refetch } = useProduct(productId || "");
-  const { createTransaction } = useTransaction();
+  const { createTransaction } = useCreateTransaction();
 
   if (!productId) {
     return <Navigate to="/404" replace />;

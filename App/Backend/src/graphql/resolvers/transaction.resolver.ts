@@ -8,7 +8,9 @@ export const transactionResolver = {
         if (!context.userId) {
           throw new Error("Not authenticated");
         }
-        return await transactionService.getMyTransactions(context.userId) || [];
+        return (
+          (await transactionService.getMyTransactions(context.userId)) || []
+        );
       } catch (error: any) {
         throw new Error("Error fetching my transactions: " + error.message);
       }
@@ -20,9 +22,14 @@ export const transactionResolver = {
           throw new Error("Not authenticated");
         }
 
-        return await transactionService.getMyProductTransactions(context.userId) || [];
+        return (
+          (await transactionService.getMyProductTransactions(context.userId)) ||
+          []
+        );
       } catch (error: any) {
-        throw new Error("Error fetching my product transactions: " + error.message);
+        throw new Error(
+          "Error fetching my product transactions: " + error.message,
+        );
       }
     },
   },

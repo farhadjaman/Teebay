@@ -6,8 +6,9 @@ import {
 } from "@/components/ui/tabs.tsx";
 import ProductCard from "@/components/ProductCard.tsx";
 
-import { useMyTransactions } from "@/features/app/dashboard/hooks/useMyTransactions";
-import { useMyProductTransactions } from "@/features/app/dashboard/hooks/useMyProductTransactions";
+import { useMyTransactions } from "@/features/transaction-history/hooks/useMyTransactions";
+import { useMyProductTransactions } from "@/features/transaction-history/hooks/useMyProductTransactions";
+import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 
 const TransactionHistory = () => {
   const {
@@ -46,7 +47,9 @@ const TransactionHistory = () => {
 
   // Helper function to render a list of products using the ProductCard component.
   const renderProductList = (items: any[]) => (
-    <div className="max-w-3xl mx-auto">
+      <div className="max-w-3xl mx-auto">
+      <ScrollArea className="h-96">
+        <div className="space-y-4">
       {items.length > 0 ? (
         items.map((product) => (
           <ProductCard product={product} key={product.id} />
@@ -55,6 +58,9 @@ const TransactionHistory = () => {
         <p className="text-center text-muted-foreground py-8">No items found</p>
       )}
     </div>
+
+      </ScrollArea>
+      </div>
   );
 
   return (
