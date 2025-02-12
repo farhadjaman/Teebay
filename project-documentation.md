@@ -50,3 +50,15 @@ TeeBay is a full-stack application that enables users to both rent and sell prod
 2. I have created the services to handle that would add transaction record to the server based on types (Renting and selling).
 
 3. In the client, I have created mutations and queries to handle the transaction, created proper UI to showcase the transaction.
+
+## Challenges: Ensuring Reusability and Data Consistency
+
+### Reusability Challenge
+I tackled the challenge of ensuring code reusability across the application by implementing reusable components, custom hooks, HOCs, and centralized configurations for routes and API services. This approach significantly reduced code duplication and improved maintainability of the application.
+
+### Data Consistency Challenge
+Maintaining data consistency between the client cache and database proved challenging, particularly for real-time updates after product modifications or deletions. I resolved this using Apollo Client's inline cache management and strategic refetch policies, ensuring the UI immediately reflects any data changes while maintaining optimal performance.
+
+## Conclusion
+
+By focusing on reusability, modularity, and performance, the frontend implementation became scalable and maintainable. The structured approach to routing not only improved developer experience but also enhanced the application's efficiency and user experience. These improvements ensure that future features can be integrated seamlessly without major refactors, making the project more adaptable to evolving requirements.
