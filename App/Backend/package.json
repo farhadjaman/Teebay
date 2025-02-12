@@ -38,6 +38,7 @@
     "dev": "ts-node-dev -r tsconfig-paths/register ./src/index.ts",
     "build": "tsc && tsc-alias",
     "migrate:dev": "prisma migrate dev",
-    "migrate:deploy": "prisma migrate deploy"
+    "migrate:deploy": "prisma migrate deploy",
+    "seed": "ts-node-dev --transpile-only ./src/scripts/seed.ts"
   }
 }
